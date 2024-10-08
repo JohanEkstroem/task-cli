@@ -4,21 +4,26 @@ internal class Program
 	private static void Main(string[] args)
 	{
 		bool isRunning = true;
-		Console.WriteLine("Hello world!");
 		while (isRunning)
 		{
-			string input = Console.ReadLine();
+			Console.ForegroundColor = ConsoleColor.Green;
+			Console.Write("task-cli ");
 
-			switch (input.ToLower())
+			Console.ForegroundColor = ConsoleColor.Yellow;
+			string? input = Console.ReadLine();
+			if (input != null)
 			{
-				case "exit":
-					isRunning = false;
-					System.Console.WriteLine("Programmet avslutas");
-					break;
+				switch (input.ToLower())
+				{
+					case "exit":
+						isRunning = false;
+						Console.WriteLine("Program shutdown");
+						break;
 
-				default:
-					System.Console.WriteLine(input);
-					break;
+					default:
+						Console.WriteLine("output");
+						break;
+				}
 			}
 		}
 	}
