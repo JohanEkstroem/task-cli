@@ -1,4 +1,5 @@
-﻿using System;
+﻿using System.Data;
+using System.Text.Json;
 namespace task_cli
 {
 
@@ -18,6 +19,11 @@ namespace task_cli
                 {
                     switch (input.Trim().ToLower())
                     {
+
+                        case "list":
+                            DisplayAllTasks();
+                            break;
+
                         case "man":
                             DisplayManualInfo();
                             break;
@@ -32,6 +38,20 @@ namespace task_cli
                     }
                 }
             }
+        }
+
+        private static void DisplayAllTasks()
+        {
+            string filePath = "data.json";
+            var jsonFile = File.ReadAllText(filePath);
+            List<Todo>? people = JsonSerializer.Deserialize<List<Todo>>(jsonFile);
+            people?.ForEach(t =>
+            {
+                Console.WriteLine($"ID:             {t.Id}");
+                Console.WriteLine($"Description:    {t.Description}");
+                Console.WriteLine();
+            });
+
         }
 
         private static void DisplayManualInfo()
