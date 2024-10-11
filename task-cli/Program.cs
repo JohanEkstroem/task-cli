@@ -13,8 +13,11 @@ internal class Program
 			string? input = Console.ReadLine();
 			if (input != null)
 			{
-				switch (input.ToLower())
-				{
+				switch (input.Trim().ToLower())
+				{	case "man":
+						DisplayManualInfo();
+						break;
+						
 					case "exit":
 						isRunning = false;
 						Console.WriteLine("Program shutdown");
@@ -27,4 +30,19 @@ internal class Program
 			}
 		}
 	}
+
+    private static void DisplayManualInfo()
+    {
+		Console.WriteLine("Available commands:");
+        Console.WriteLine("  add <task>                     - Add new task.");
+        Console.WriteLine("  update <id> <task>             - Update existing task.");
+        Console.WriteLine("  delete <id>                    - Delete task.");
+        Console.WriteLine("  mark-in-progress <id>          - Mark task as in-progress.");
+        Console.WriteLine("  mark-done <id>                 - Mark task as done.");
+        Console.WriteLine("  list                           - List all tasks.");
+        Console.WriteLine("  list done                      - List all completed tasks.");
+        Console.WriteLine("  list todo                      - List tasks not in-progress.");
+        Console.WriteLine("  list in-progress               - List tasks in-progress.");
+        Console.WriteLine();
+    }
 }
