@@ -26,6 +26,10 @@ namespace task_cli
                 {
                     switch (input.Trim().ToLower())
                     {
+                        case "list in-progress":
+                            DisplayInprogressTasks(dataFilePath, options);
+                            break;
+
                         case "list done":
                             DisplayCompletedTasks(dataFilePath, options);
                             break;
@@ -48,6 +52,13 @@ namespace task_cli
                     }
                 }
             }
+        }
+
+        private static void DisplayInprogressTasks(string dataFilePath, JsonSerializerOptions options)
+        {
+            var jsonFile = File.ReadAllText(dataFilePath);
+            List<Todo>? people = JsonSerializer.Deserialize<List<Todo>>(jsonFile, options);
+            people?.Where(x => x.Status.Equals(Status.Inprogress)).ToList().ForEach(t => PrintTask(t));
         }
 
         private static void DisplayCompletedTasks(string dataFilePath, JsonSerializerOptions options)
