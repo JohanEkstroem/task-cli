@@ -5,9 +5,16 @@ namespace task_cli
 
     internal class Program
     {
+
         private static void Main(string[] args)
         {
+            string dataFilePath = "data.json";
             bool isRunning = true;
+            JsonSerializerOptions options = new()
+            {
+                Converters = { new JsonStringEnumConverter() }
+            };
+
             while (isRunning)
             {
                 Console.ForegroundColor = ConsoleColor.Green;
@@ -21,7 +28,7 @@ namespace task_cli
                     {
 
                         case "list":
-                            DisplayAllTasks();
+                            DisplayAllTasks(dataFilePath, options);
                             break;
 
                         case "man":
@@ -40,25 +47,21 @@ namespace task_cli
             }
         }
 
-        private static void DisplayAllTasks()
+        private static void DisplayAllTasks(string filePath, JsonSerializerOptions options)
         {
-            var options = new JsonSerializerOptions
-            {
-                Converters = { new JsonStringEnumConverter() }
-            };
-            string filePath = "data.json";
             var jsonFile = File.ReadAllText(filePath);
             List<Todo>? people = JsonSerializer.Deserialize<List<Todo>>(jsonFile, options);
-            people?.ForEach(t =>
-            {
-                Console.WriteLine($"ID:             {t.Id}");
-                Console.WriteLine($"Description:    {t.Description}");
-                Console.WriteLine($"Status:         {t.Status}");
-                Console.WriteLine($"Created At:     {t.CreatedAt}");
-                Console.WriteLine($"Updated At:     {t.UpdatedAt}");
-                Console.WriteLine();
-            });
+            people?.ForEach(t => PrintTask(t));
+        }
 
+        private static void PrintTask(Todo t)
+        {
+            Console.WriteLine($"ID:             {t.Id}");
+            Console.WriteLine($"Description:    {t.Description}");
+            Console.WriteLine($"Status:         {t.Status}");
+            Console.WriteLine($"Created At:     {t.CreatedAt}");
+            Console.WriteLine($"Updated At:     {t.UpdatedAt}");
+            Console.WriteLine();
         }
 
         private static void DisplayManualInfo()
