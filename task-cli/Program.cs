@@ -1,5 +1,5 @@
-﻿using System.Data;
-using System.Text.Json;
+﻿using System.Text.Json;
+using System.Text.Json.Serialization;
 namespace task_cli
 {
 
@@ -42,13 +42,20 @@ namespace task_cli
 
         private static void DisplayAllTasks()
         {
+            var options = new JsonSerializerOptions
+            {
+                Converters = { new JsonStringEnumConverter() }
+            };
             string filePath = "data.json";
             var jsonFile = File.ReadAllText(filePath);
-            List<Todo>? people = JsonSerializer.Deserialize<List<Todo>>(jsonFile);
+            List<Todo>? people = JsonSerializer.Deserialize<List<Todo>>(jsonFile, options);
             people?.ForEach(t =>
             {
                 Console.WriteLine($"ID:             {t.Id}");
                 Console.WriteLine($"Description:    {t.Description}");
+                Console.WriteLine($"Status:         {t.Status}");
+                Console.WriteLine($"Created At:     {t.CreatedAt}");
+                Console.WriteLine($"Updated At:     {t.UpdatedAt}");
                 Console.WriteLine();
             });
 

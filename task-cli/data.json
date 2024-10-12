@@ -1,5 +1,19 @@
 [
-    {"id": 1, "description": "buy coffee"},
-    {"id": 2, "description": "sleep"},
-    {"id": 3, "description": "clean livingroom"}
+    {
+        "id": 1,
+        "description": "buy coffee",
+        "status": "Done"
+    },
+    {
+        "id": 2,
+        "description": "sleep",
+        "status": "Done"
+    },
+    {
+        "id": 3,
+        "description": "clean livingroom",
+        "status": "Inprogress",
+        "createdAt": "2024-10-12T14:00:00",
+        "updatedAt": "2024-10-12T15:00:00"
+    }
 ]

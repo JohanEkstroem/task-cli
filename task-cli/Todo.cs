@@ -16,11 +16,15 @@ namespace task_cli
 		public int Id { get; set; }
 
 		[JsonPropertyName("description")]
-		public string Description { get; set; }
-		// public required string Description { get; set; } = description;
-		// public Status Status { get; set; } = status;
-		// public DateTime CreatedAt { get; } = DateTime.Now;
-		// public DateTime UpdatedAt { get; set; }
+		public string? Description { get; set; }
+		[JsonPropertyName("status")]
+		public Status Status { get; set; }
+
+		[JsonPropertyName("createdAt")]
+		public DateTime? CreatedAt { get; set; }
+
+		[JsonPropertyName("updatedAt")]
+		public DateTime? UpdatedAt { get; set; }
 	}
 
 }
