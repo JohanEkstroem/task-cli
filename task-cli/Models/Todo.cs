@@ -2,7 +2,7 @@
 
 using System.Text.Json.Serialization;
 
-namespace task_cli
+namespace task_cli.Models
 {
 	public enum Status
 	{
