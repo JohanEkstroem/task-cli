@@ -53,6 +53,7 @@ public class PrintService : IPrintService
         Console.WriteLine("  list done                      - List all completed tasks.");
         Console.WriteLine("  list todo                      - List tasks not in-progress.");
         Console.WriteLine("  list in-progress               - List tasks in-progress.");
+        Console.WriteLine("  exit                           - Close program. No shit?");
         Console.WriteLine();
     }
     private static void PrintTask(Todo t)

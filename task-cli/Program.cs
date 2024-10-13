@@ -39,7 +39,7 @@ namespace task_cli
                             printService.PrintAllTasks();
                             break;
 
-                        case "man":
+                        case "help":
                             printService.PrintHelpInfo();
                             break;
 
@@ -49,6 +49,7 @@ namespace task_cli
                             break;
 
                         default:
+                            Console.WriteLine("Invalid input. Type 'help' for available commands");
                             break;
                     }
                 }
