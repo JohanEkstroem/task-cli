@@ -1,6 +1,7 @@
 ﻿using System.Text.Json;
 using System.Text.Json.Serialization;
 using task_cli.Services.PrintService;
+using task_cli.Services.Todoservice;
 namespace task_cli
 {
 
@@ -9,6 +10,7 @@ namespace task_cli
         private static void Main(string[] args)
         {
             var printService = new PrintService();
+            var todoService = new TodoService();
             bool isRunning = true;
 
             while (isRunning)
@@ -18,11 +20,14 @@ namespace task_cli
 
                 Console.ForegroundColor = ConsoleColor.Yellow;
                 string? input = Console.ReadLine();
+                Console.ResetColor();
+
                 if (input != null)
                 {
-                    Console.ResetColor();
-                    switch (input.Trim().ToLower())
+                    input = input.Trim().ToLower();
+                    switch (input)
                     {
+
                         case "list todo":
                             printService.PrintTodoTasks();
                             break;
@@ -49,7 +54,7 @@ namespace task_cli
                             break;
 
                         default:
-                            Console.WriteLine("Invalid input. Type 'help' for available commands");
+                            todoService.DoSomeWonkyStuff(input);
                             break;
                     }
                 }

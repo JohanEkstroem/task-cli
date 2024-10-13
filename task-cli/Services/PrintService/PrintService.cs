@@ -30,7 +30,7 @@ public class PrintService : IPrintService
 
     private void PrintStuff(Status? todo = null)
     {
-        var todoList = fileService.GetTodoList().ToList();
+        var todoList = fileService.GetTodoList();
 
         if (todo is null)
         {
