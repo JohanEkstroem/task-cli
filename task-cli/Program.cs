@@ -24,31 +24,30 @@ namespace task_cli
 
                 if (input != null)
                 {
-                    input = input.Trim().ToLower();
+                    input = input.Trim();
                     switch (input)
                     {
-
-                        case "list todo":
+                        case var _ when input.StartsWith("list todo", StringComparison.OrdinalIgnoreCase):
                             printService.PrintTodoTasks();
                             break;
 
-                        case "list in-progress":
+                        case var _ when input.StartsWith("list in-progress", StringComparison.OrdinalIgnoreCase):
                             printService.PrintInprogressTasks();
                             break;
 
-                        case "list done":
+                        case var _ when input.StartsWith("list done", StringComparison.OrdinalIgnoreCase):
                             printService.PrintCompletedTasks();
                             break;
 
-                        case "list":
+                        case var _ when input.StartsWith("list", StringComparison.OrdinalIgnoreCase):
                             printService.PrintAllTasks();
                             break;
 
-                        case "help":
+                        case var _ when input.StartsWith("help", StringComparison.OrdinalIgnoreCase):
                             printService.PrintHelpInfo();
                             break;
 
-                        case "exit":
+                        case var _ when input.StartsWith("exit", StringComparison.OrdinalIgnoreCase):
                             isRunning = false;
                             Console.WriteLine("Program shutdown");
                             break;
