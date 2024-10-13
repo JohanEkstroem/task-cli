@@ -1,6 +1,6 @@
 ﻿using System.Text.Json;
 using System.Text.Json.Serialization;
-using task_cli.Printservice;
+using task_cli.Services.PrintService;
 namespace task_cli
 {
 
@@ -8,7 +8,7 @@ namespace task_cli
     {
         private static void Main(string[] args)
         {
-            PrintService printService = new PrintService();
+            var printService = new PrintService();
             bool isRunning = true;
 
             while (isRunning)
@@ -24,23 +24,23 @@ namespace task_cli
                     switch (input.Trim().ToLower())
                     {
                         case "list todo":
-                            printService.DisplayTodoTasks();
+                            printService.PrintTodoTasks();
                             break;
 
                         case "list in-progress":
-                            printService.DisplayInprogressTasks();
+                            printService.PrintInprogressTasks();
                             break;
 
                         case "list done":
-                            printService.DisplayCompletedTasks();
+                            printService.PrintCompletedTasks();
                             break;
 
                         case "list":
-                            printService.DisplayAllTasks();
+                            printService.PrintAllTasks();
                             break;
 
                         case "man":
-                            printService.DisplayManualInfo();
+                            printService.PrintHelpInfo();
                             break;
 
                         case "exit":

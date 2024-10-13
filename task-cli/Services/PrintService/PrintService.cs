@@ -1,51 +1,47 @@
 using System.Text.Json;
-using System.Text.Json.Serialization;
 using task_cli.Models;
+using task_cli.Services.Fileservice;
 
-namespace task_cli.Printservice;
+namespace task_cli.Services.PrintService;
 
 public class PrintService : IPrintService
 {
-    private JsonSerializerOptions options = new()
-    {
-        Converters = { new JsonStringEnumConverter() }
-    };
-    private readonly string dataFilePath = "Data/data.json";
+    private readonly FileService fileService = new();
 
-    public void DisplayAllTasks()
+    public void PrintAllTasks()
     {
-        PrintStuff(dataFilePath, options);
+        PrintStuff();
     }
 
-    public void DisplayCompletedTasks()
+    public void PrintCompletedTasks()
     {
-        PrintStuff(dataFilePath, options, Status.Done);
+        PrintStuff(Status.Done);
     }
 
-    public void DisplayInprogressTasks()
+    public void PrintInprogressTasks()
     {
-        PrintStuff(dataFilePath, options, Status.Inprogress);
+        PrintStuff(Status.Inprogress);
     }
 
-    public void DisplayTodoTasks()
+    public void PrintTodoTasks()
     {
-        PrintStuff(dataFilePath, options, Status.Todo);
+        PrintStuff(Status.Todo);
     }
 
-    private static void PrintStuff(string dataFilePath, JsonSerializerOptions options, Status? todo = null)
+    private void PrintStuff(Status? todo = null)
     {
-        var jsonFile = File.ReadAllText(dataFilePath);
-        List<Todo>? people = JsonSerializer.Deserialize<List<Todo>>(jsonFile, options);
+        var todoList = fileService.GetTodoList().ToList();
+
         if (todo is null)
         {
-            people?.ForEach(PrintTask);
+            todoList.ForEach(PrintTask);
         }
         else
         {
-            people?.Where(x => x.Status.Equals(todo)).ToList().ForEach(PrintTask);
+            todoList?.Where(x => x.Status.Equals(todo)).ToList().ForEach(PrintTask);
         }
     }
-    public void DisplayManualInfo()
+    public void PrintHelpInfo()
     {
         Console.WriteLine("Available commands:");
         Console.WriteLine("  add <task>                     - Add new task.");
