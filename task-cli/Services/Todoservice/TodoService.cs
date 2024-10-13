@@ -6,22 +6,28 @@ namespace task_cli.Services.Todoservice;
 
 public class TodoService : ITodoService
 {
-    private FileService fileService = new FileService();
+    private const string errorMessage = "Invalid input. Type 'help' to show available commands.";
+    private readonly FileService fileService = new();
     public void AddTodo(string input)
     {
         // Validate input
+        var description = input.Substring(input.IndexOf(' ') + 1);
+        if (description == string.Empty || description.Length == 0)
+        {
+            Console.WriteLine(errorMessage);
+            return;
+        }
         // if valid: 
         // read data.json
         var todolist = fileService.GetTodoList();
 
         // add a new todo
-        var description = input.Substring(input.IndexOf(' ') + 1);
         int newId = todolist.Count != 0 ? todolist.Max(obj => obj.Id) + 1 : 1;
         var newTodo = new Todo { Id = newId, Description = description, Status = Status.Todo, CreatedAt = DateTime.Now, UpdatedAt = DateTime.Now };
         todolist.Add(newTodo);
 
         fileService.SaveTodoList(todolist);
-        Console.WriteLine($"Successfully added task: {newId}");
+        Console.WriteLine($"Task added successfully (ID: {newId})");
     }
     internal void DoSomeWonkyStuff(string input)
     {
@@ -31,9 +37,9 @@ public class TodoService : ITodoService
         //  - update stuff?
         //  - delete stuff?
         //  - mark stuff?
-        if (input == string.Empty)
+        if (input == string.Empty || input.IndexOf(' ') == -1)
         {
-            Console.WriteLine("Invalid input. Type 'help' to show available commands.");
+            Console.WriteLine(errorMessage);
             return;
         }
         var inputCommand = input.Split(' ').First();
@@ -44,6 +50,7 @@ public class TodoService : ITodoService
                 break;
 
             default:
+                Console.WriteLine(errorMessage);
                 break;
         }
     }
