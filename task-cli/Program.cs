@@ -24,8 +24,13 @@ namespace task_cli
                 string? input = Console.ReadLine();
                 if (input != null)
                 {
+                    Console.ResetColor();
                     switch (input.Trim().ToLower())
                     {
+                        case "list todo":
+                            DisplayTodoTasks(dataFilePath, options);
+                            break;
+
                         case "list in-progress":
                             DisplayInprogressTasks(dataFilePath, options);
                             break;
@@ -54,18 +59,33 @@ namespace task_cli
             }
         }
 
-        private static void DisplayInprogressTasks(string dataFilePath, JsonSerializerOptions options)
+        private static void DisplayTodoTasks(string dataFilePath, JsonSerializerOptions options)
+        {
+            PrintStuff(dataFilePath, options, Status.Todo);
+        }
+
+        private static void PrintStuff(string dataFilePath, JsonSerializerOptions options, Status? todo)
         {
             var jsonFile = File.ReadAllText(dataFilePath);
             List<Todo>? people = JsonSerializer.Deserialize<List<Todo>>(jsonFile, options);
-            people?.Where(x => x.Status.Equals(Status.Inprogress)).ToList().ForEach(t => PrintTask(t));
+            if (todo is null)
+            {
+                people?.ForEach(PrintTask);
+            }
+            else
+            {
+                people?.Where(x => x.Status.Equals(todo)).ToList().ForEach(PrintTask);
+            }
+        }
+
+        private static void DisplayInprogressTasks(string dataFilePath, JsonSerializerOptions options)
+        {
+            PrintStuff(dataFilePath, options, Status.Inprogress);
         }
 
         private static void DisplayCompletedTasks(string dataFilePath, JsonSerializerOptions options)
         {
-            var jsonFile = File.ReadAllText(dataFilePath);
-            List<Todo>? people = JsonSerializer.Deserialize<List<Todo>>(jsonFile, options);
-            people?.Where(x => x.Status.Equals(Status.Done)).ToList().ForEach(t => PrintTask(t));
+            PrintStuff(dataFilePath, options, Status.Done);
         }
 
         private static void DisplayAllTasks(string filePath, JsonSerializerOptions options)
