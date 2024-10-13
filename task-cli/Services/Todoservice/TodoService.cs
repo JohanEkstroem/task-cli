@@ -1,20 +1,27 @@
 using System;
 using task_cli.Models;
+using task_cli.Services.Fileservice;
 
 namespace task_cli.Services.Todoservice;
 
 public class TodoService : ITodoService
 {
+    private FileService fileService = new FileService();
     public void AddTodo(string input)
     {
         // Validate input
         // if valid: 
         // read data.json
-        // add a new todo
-        // write to file
-        // print successful message
+        var todolist = fileService.GetTodoList();
 
-        // else print error message
+        // add a new todo
+        var description = input.Substring(input.IndexOf(' ') + 1);
+        int newId = todolist.Count != 0 ? todolist.Max(obj => obj.Id) + 1 : 1;
+        var newTodo = new Todo { Id = newId, Description = description, Status = Status.Todo, CreatedAt = DateTime.Now, UpdatedAt = DateTime.Now };
+        todolist.Add(newTodo);
+
+        fileService.SaveTodoList(todolist);
+        Console.WriteLine($"Successfully added task: {newId}");
     }
     internal void DoSomeWonkyStuff(string input)
     {
